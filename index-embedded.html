@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Español</title>
+    <style>
+        /* Все стили остаются теми же */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+        }
+
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .scene-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 24px;
+            border-radius: 15px;
+            margin: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+        }
+
+        .nav-buttons {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            pointer-events: none;
+        }
+
+        .nav-button {
+            flex: 0 0 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            font-size: 48px;
+            color: rgba(0,0,0,0.3);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        .nav-space {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="image-container">
+            <img class="scene-image" src="" alt="Scene">
+        </div>
+        <div style="text-align: center;">
+            <button class="play-button">¡Escucha!</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-button" id="prev-button">←</button>
+            <div class="nav-space"></div>
+            <button class="nav-button" id="next-button">→</button>
+        </div>
+    </div>
+
+    <script>
+        // Встроенная конфигурация вместо загрузки из файла
+        const CONFIG = {
+            scenes: [
+                {
+                    imageUrl: "assets/images/18-hola.webp",
+                    audioUrl: "assets/audio/18-hola.mp3"
+                },
+                {
+                    imageUrl: "assets/images/01-lavar-manos.webp",
+                    audioUrl: "assets/audio/01-lavar-manos.mp3"
+                },
+                {
+                    imageUrl: "assets/images/03-quiero-comer.webp",
+                    audioUrl: "assets/audio/03-quiero-comer.mp3"
+                },
+                {
+                    imageUrl: "assets/images/04-quiero-mas.webp",
+                    audioUrl: "assets/audio/04-quiero-mas.mp3"
+                },
+                {
+                    imageUrl: "assets/images/06-vamos-a-jugar.webp",
+                    audioUrl: "assets/audio/06-vamos-a-jugar.mp3"
+                },
+                {
+                    imageUrl: "assets/images/10-es-mio.webp",
+                    audioUrl: "assets/audio/10-es-mio.mp3"
+                },
+                {
+                    imageUrl: "assets/images/15-me-gusta-dibujar.webp",
+                    audioUrl: "assets/audio/15-me-gusta-dibujar.mp3"
+                },
+                {
+                    imageUrl: "assets/images/16-me-duele.webp",
+                    audioUrl: "assets/audio/16-me-duele.mp3"
+                },
+                {
+                    imageUrl: "assets/images/17-disculpame.webp",
+                    audioUrl: "assets/audio/17-disculpame.mp3"
+                },
+                {
+                    imageUrl: "assets/images/20-me-gusta-muñeca.webp",
+                    audioUrl: "assets/audio/20-me-gusta-muñeca.mp3"
+                },
+                {
+                    imageUrl: "assets/images/02-baño.webp",
+                    audioUrl: "assets/audio/02-baño.mp3"
+                },
+                {
+                    imageUrl: "assets/images/05-vamos-afuera.webp",
+                    audioUrl: "assets/audio/05-vamos-afuera.mp3"
+                },
+                {
+                    imageUrl: "assets/images/11-mi-turno.webp",
+                    audioUrl: "assets/audio/11-mi-turno.mp3"
+                },
+                {
+                    imageUrl: "assets/images/07-tengo-sed.webp",
+                    audioUrl: "assets/audio/07-tengo-sed.mp3"
+                },
+                {
+                    imageUrl: "assets/images/12-quiero-ir-a-casa.webp",
+                    audioUrl: "assets/audio/12-quiero-ir-a-casa.mp3"
+                },
+                {
+                    imageUrl: "assets/images/13-vamos-a-casa.webp",
+                    audioUrl: "assets/audio/13-vamos-a-casa.mp3"
+                },
+                {
+                    imageUrl: "assets/images/19-chao.webp",
+                    audioUrl: "assets/audio/19-chao.mp3"
+                },
+                {
+                    imageUrl: "assets/images/08-estoy-cansada.webp",
+                    audioUrl: "assets/audio/08-estoy-cansada.mp3"
+                },
+                {
+                    imageUrl: "assets/images/09-quiero-dormir.webp",
+                    audioUrl: "assets/audio/09-quiero-dormir.mp3"
+                },
+                {
+                    imageUrl: "assets/images/14-vamos-a-la-cama.webp",
+                    audioUrl: "assets/audio/14-vamos-a-la-cama.mp3"
+                },
+            ]
+        };
+
+        class App {
+            constructor(scenes) {
+                this.scenes = scenes;
+                this.currentIndex = 0;
+                this.audio = new Audio();
+
+                this.imageElement = document.querySelector('.scene-image');
+                this.playButton = document.querySelector('.play-button');
+                this.prevButton = document.querySelector('#prev-button');
+                this.nextButton = document.querySelector('#next-button');
+
+                this.playButton.addEventListener('click', () => this.playAudio());
+                this.prevButton.addEventListener('click', () => this.navigate(-1));
+                this.nextButton.addEventListener('click', () => this.navigate(1));
+
+                this.setupTouchNavigation();
+                this.updateScene();
+            }
+
+            updateScene() {
+                const scene = this.scenes[this.currentIndex];
+                this.imageElement.src = scene.imageUrl;
+                this.audio.src = scene.audioUrl;
+            }
+
+            playAudio() {
+                this.audio.play();
+            }
+
+            navigate(direction) {
+                this.currentIndex = (this.currentIndex + direction + this.scenes.length) % this.scenes.length;
+                this.updateScene();
+            }
+
+            setupTouchNavigation() {
+                let startX = 0;
+                let isDragging = false;
+
+                document.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    
+                    const endX = e.changedTouches[0].clientX;
+                    const diff = endX - startX;
+                    
+                    if (Math.abs(diff) > 50) {
+                        this.navigate(diff > 0 ? -1 : 1);
+                    }
+                    
+                    isDragging = false;
+                });
+            }
+        }
+
+        // Инициализация приложения сразу с встроенной конфигурацией
+        window.addEventListener('DOMContentLoaded', () => {
+            new App(CONFIG.scenes);
+        });
+    </script>
+</body>
+</html>

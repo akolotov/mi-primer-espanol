@@ -1,0 +1,84 @@
+{
+    "scenes": [
+        {
+            "imageUrl": "assets/images/18-hola.webp",
+            "audioUrl": "assets/audio/18-hola.mp3"
+        },
+        {
+            "imageUrl": "assets/images/01-lavar-manos.webp",
+            "audioUrl": "assets/audio/01-lavar-manos.mp3"
+        },
+        {
+            "imageUrl": "assets/images/03-quiero-comer.webp",
+            "audioUrl": "assets/audio/03-quiero-comer.mp3"
+        },
+        {
+            "imageUrl": "assets/images/04-quiero-mas.webp",
+            "audioUrl": "assets/audio/04-quiero-mas.mp3"
+        },
+        {
+            "imageUrl": "assets/images/06-vamos-a-jugar.webp",
+            "audioUrl": "assets/audio/06-vamos-a-jugar.mp3"
+        },
+        {
+            "imageUrl": "assets/images/10-es-mio.webp",
+            "audioUrl": "assets/audio/10-es-mio.mp3"
+        },
+        {
+            "imageUrl": "assets/images/15-me-gusta-dibujar.webp",
+            "audioUrl": "assets/audio/15-me-gusta-dibujar.mp3"
+        },
+        {
+            "imageUrl": "assets/images/16-me-duele.webp",
+            "audioUrl": "assets/audio/16-me-duele.mp3"
+        },
+        {
+            "imageUrl": "assets/images/17-disculpame.webp",
+            "audioUrl": "assets/audio/17-disculpame.mp3"
+        },
+        {
+            "imageUrl": "assets/images/20-me-gusta-muñeca.webp",
+            "audioUrl": "assets/audio/20-me-gusta-muñeca.mp3"
+        },
+        {
+            "imageUrl": "assets/images/02-baño.webp",
+            "audioUrl": "assets/audio/02-baño.mp3"
+        },
+        {
+            "imageUrl": "assets/images/05-vamos-afuera.webp",
+            "audioUrl": "assets/audio/05-vamos-afuera.mp3"
+        },
+        {
+            "imageUrl": "assets/images/11-mi-turno.webp",
+            "audioUrl": "assets/audio/11-mi-turno.mp3"
+        },
+        {
+            "imageUrl": "assets/images/07-tengo-sed.webp",
+            "audioUrl": "assets/audio/07-tengo-sed.mp3"
+        },
+        {
+            "imageUrl": "assets/images/12-quiero-ir-a-casa.webp",
+            "audioUrl": "assets/audio/12-quiero-ir-a-casa.mp3"
+        },
+        {
+            "imageUrl": "assets/images/13-vamos-a-casa.webp",
+            "audioUrl": "assets/audio/13-vamos-a-casa.mp3"
+        },
+        {
+            "imageUrl": "assets/images/19-chao.webp",
+            "audioUrl": "assets/audio/19-chao.mp3"
+        },
+        {
+            "imageUrl": "assets/images/08-estoy-cansada.webp",
+            "audioUrl": "assets/audio/08-estoy-cansada.mp3"
+        },
+        {
+            "imageUrl": "assets/images/09-quiero-dormir.webp",
+            "audioUrl": "assets/audio/09-quiero-dormir.mp3"
+        },
+        {
+            "imageUrl": "assets/images/14-vamos-a-la-cama.webp",
+            "audioUrl": "assets/audio/14-vamos-a-la-cama.mp3"
+        }
+    ]
+}

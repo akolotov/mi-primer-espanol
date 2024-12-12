@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprende Español</title>
+    <style>
+        /* Сброс стилей для всех элементов */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Основной контейнер приложения */
+        .app {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: #f0f2f5;
+        }
+
+        /* Контейнер для картинки */
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Стили для картинки */
+        .scene-image {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* Кнопка воспроизведения звука */
+        .play-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 24px;
+            border-radius: 15px;
+            margin: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Контейнер для навигационных кнопок */
+        .nav-buttons {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            pointer-events: none;
+        }
+
+        /* Стили для навигационных кнопок */
+        .nav-button {
+            flex: 0 0 40%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            font-size: 48px;
+            color: rgba(0,0,0,0.3);
+            cursor: pointer;
+            pointer-events: auto;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0,0,0,0.05);
+        }
+
+        /* Пространство между навигационными кнопками */
+        .nav-space {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <div class="image-container">
+            <img class="scene-image" src="" alt="Scene">
+        </div>
+        <div style="text-align: center;">
+            <button class="play-button">¡Escucha!</button>
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-button" id="prev-button">←</button>
+            <div class="nav-space"></div>
+            <button class="nav-button" id="next-button">→</button>
+        </div>
+    </div>
+
+    <script>
+        // Функция для загрузки конфигурации из JSON файла
+        async function loadConfig() {
+            try {
+                const response = await fetch('config.json');
+                return await response.json();
+            } catch (error) {
+                console.error('Ошибка загрузки конфигурации:', error);
+                return { scenes: [] };
+            }
+        }
+
+        // Основной класс приложения
+        class App {
+            constructor(scenes) {
+                this.scenes = scenes;
+                this.currentIndex = 0;
+                this.audio = new Audio();
+
+                // Получаем ссылки на элементы DOM
+                this.imageElement = document.querySelector('.scene-image');
+                this.playButton = document.querySelector('.play-button');
+                this.prevButton = document.querySelector('#prev-button');
+                this.nextButton = document.querySelector('#next-button');
+
+                // Привязываем обработчики событий
+                this.playButton.addEventListener('click', () => this.playAudio());
+                this.prevButton.addEventListener('click', () => this.navigate(-1));
+                this.nextButton.addEventListener('click', () => this.navigate(1));
+
+                // Добавляем поддержку свайпов для мобильных устройств
+                this.setupTouchNavigation();
+
+                // Показываем первую сцену
+                this.updateScene();
+            }
+
+            // Обновление текущей сцены
+            updateScene() {
+                const scene = this.scenes[this.currentIndex];
+                this.imageElement.src = scene.imageUrl;
+                this.audio.src = scene.audioUrl;
+            }
+
+            // Воспроизведение аудио
+            playAudio() {
+                this.audio.play();
+            }
+
+            // Навигация между сценами
+            navigate(direction) {
+                this.currentIndex = (this.currentIndex + direction + this.scenes.length) % this.scenes.length;
+                this.updateScene();
+            }
+
+            // Настройка навигации свайпами
+            setupTouchNavigation() {
+                let startX = 0;
+                let isDragging = false;
+
+                document.addEventListener('touchstart', (e) => {
+                    startX = e.touches[0].clientX;
+                    isDragging = true;
+                });
+
+                document.addEventListener('touchend', (e) => {
+                    if (!isDragging) return;
+                    
+                    const endX = e.changedTouches[0].clientX;
+                    const diff = endX - startX;
+                    
+                    if (Math.abs(diff) > 50) { // Минимальное расстояние для свайпа
+                        this.navigate(diff > 0 ? -1 : 1);
+                    }
+                    
+                    isDragging = false;
+                });
+            }
+        }
+
+        // Инициализация приложения при загрузке страницы
+        window.addEventListener('DOMContentLoaded', async () => {
+            const config = await loadConfig();
+            new App(config.scenes);
+        });
+    </script>
+</body>
+</html>
