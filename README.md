@@ -29,7 +29,7 @@ This project was created to help young children who are just starting their jour
    git clone https://github.com/yourusername/mi-primer-espanol.git
    ```
 
-2. Create a `config.json` file in the root directory with your scenes:
+2. Update the `config.json` file in the root directory with your scenes:
    ```json
    {
      "scenes": [
@@ -45,7 +45,12 @@ This project was created to help young children who are just starting their jour
    }
    ```
 
-3. Open `index.html` in a web browser or deploy to your preferred hosting service.
+3. Run the local HTTP server or deploy to your preferred hosting service. To run the local HTTP server, use the following command:
+   ```bash
+   python3 -m http.server 8000
+   ```
+
+4. Open `http://localhost:8000` in a web browser or by url of your hosting service.
 
 ## Usage
 
